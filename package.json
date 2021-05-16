@@ -1,0 +1,31 @@
+{
+  "name": "jsdomutils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemashushu/jsdomutils.git"
+  },
+  "keywords": [
+    "utility",
+    "object"
+  ],
+  "author": "Hippo Spark <hippospark@gmail.com> (https://twitter.com/hemashushu)",
+  "license": "SEE LICENSE IN <LICENSE.md>",
+  "bugs": {
+    "url": "https://github.com/hemashushu/jsdomutils/issues"
+  },
+  "homepage": "https://github.com/hemashushu/jsdomutils#readme",
+  "devDependencies": {
+    "mocha": "^8.3.2"
+  },
+  "dependencies": {
+    "domino": "^2.1.6",
+    "jsexception": "github:hemashushu/jsexception",
+    "jsstringutils": "github:hemashushu/jsstringutils"
+  }
+}
