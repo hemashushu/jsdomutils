@@ -1,14 +1,15 @@
-const {IllegalArgumentException} = require('jsexception');
 const domino = require('domino');
-const {StringUtils} = require('jsstringutils');
+
+const { IllegalArgumentException } = require('jsexception');
+const { StringUtils } = require('jsstringutils');
 
 const ComputeSize = require('./computesize');
 
 class DomUtils {
 
-	static containsClassName(classList, className) {
-		return classList.contains(className);
-	}
+    static containsClassName(classList, className) {
+        return classList.contains(className);
+    }
 
     static containsAllClassNames(classList, classNames) {
         let clazzs = Array.from(classList);
@@ -33,38 +34,38 @@ class DomUtils {
      */
     static findElementAndParent(node, className, tagName, topElement) {
 
-		// the 'Node' object:
-		// https://developer.mozilla.org/en-US/docs/Web/API/Node
-		//
-		// 有一种节点称为 Text Node （文本节点），它是元素（Element）之间的文本：
-		// Node.nodeType: TEXT_NODE =3
-		// Node.nodeName: a Text node will have the '#text' string.
+        // the 'Node' object:
+        // https://developer.mozilla.org/en-US/docs/Web/API/Node
+        //
+        // 有一种节点称为 Text Node （文本节点），它是元素（Element）之间的文本：
+        // Node.nodeType: TEXT_NODE =3
+        // Node.nodeName: a Text node will have the '#text' string.
 
         let element = node;
-        while(element !== null && element !== topElement && element.tagName !== 'BODY') {
+        while (element !== null && element !== topElement && element.tagName !== 'BODY') {
 
-			if (element.nodeType === Node.ELEMENT_NODE) {
-				if (className !== undefined && tagName !== undefined) {
-					if (DomUtils.containsClassName(element.classList, className) &&
-						element.tagName === tagName) {
-						return element;
-					}
-				}else if (className !== undefined) {
-					if (DomUtils.containsClassName(element.classList, className)){
-						return element;
-					}
-				}else if (tagName !== undefined) {
-					if (element.tagName === tagName) {
-						return element;
-					}
-				}
-			}
+            if (element.nodeType === Node.ELEMENT_NODE) {
+                if (className !== undefined && tagName !== undefined) {
+                    if (DomUtils.containsClassName(element.classList, className) &&
+                        element.tagName === tagName) {
+                        return element;
+                    }
+                } else if (className !== undefined) {
+                    if (DomUtils.containsClassName(element.classList, className)) {
+                        return element;
+                    }
+                } else if (tagName !== undefined) {
+                    if (element.tagName === tagName) {
+                        return element;
+                    }
+                }
+            }
 
             element = element.parentNode;
         }
 
         // 找不到符合的元素，返回 undefined
-	}
+    }
 
     /**
      * 根据指定的样式名或者标签名，从当前元素的父节点开始寻找所有符合的
@@ -82,119 +83,119 @@ class DomUtils {
      */
     static findParentElement(node, className, tagName, topElement) {
         let element = node;
-        while(element !== null && element !== topElement && element.tagName !== 'BODY') {
+        while (element !== null && element !== topElement && element.tagName !== 'BODY') {
             element = element.parentNode;
 
-			if (element.nodeType === Node.ELEMENT_NODE) {
-				if (className !== undefined && tagName !== undefined) {
-					if (DomUtils.containsClassName(element.classList, className) &&
-						element.tagName === tagName) {
-						return element;
-					}
-				}else if (className !== undefined) {
-					if (DomUtils.containsClassName(element.classList, className)){
-						return element;
-					}
-				}else if (tagName !== undefined) {
-					if (element.tagName === tagName) {
-						return element;
-					}
-				}
-			}
+            if (element.nodeType === Node.ELEMENT_NODE) {
+                if (className !== undefined && tagName !== undefined) {
+                    if (DomUtils.containsClassName(element.classList, className) &&
+                        element.tagName === tagName) {
+                        return element;
+                    }
+                } else if (className !== undefined) {
+                    if (DomUtils.containsClassName(element.classList, className)) {
+                        return element;
+                    }
+                } else if (tagName !== undefined) {
+                    if (element.tagName === tagName) {
+                        return element;
+                    }
+                }
+            }
         }
 
         // 找不到符合的元素，返回 undefined
     }
 
-	/**
-	 * 根据指定的样式名或者标签名，从当前元素的同层的排在之前的
+    /**
+     * 根据指定的样式名或者标签名，从当前元素的同层的排在之前的
      * 姐妹节点（previous sibling nodes）开始寻找符合的元素，若找不到则
      * 转到父节点，以及父节点的排在之前的姐妹节点，直到到达指定的 topElement 元素
      * 或者 BODY 元素为止。
-	 *
+     *
      * - className 和 tagName 都是可选的，但不能同时为 undefined
      * - topElement 也是可选的，默认情况下搜索到 BODY 元素即停止
      * - 结果不会是起始节点，即使它的条件匹配。
      *
-	 * @param {*} node
-	 * @param {*} className
-	 * @param {*} topElement
+     * @param {*} node
+     * @param {*} className
+     * @param {*} topElement
      * @returns 如果找不到符合的元素则返回 undefined
-	 */
-	static findPreviousElementAndParent(node, className, tagName, topElement) {
-		let element = node;
-		while (element !== null && element !== topElement && element.tagName !== 'BODY') {
+     */
+    static findPreviousElementAndParent(node, className, tagName, topElement) {
+        let element = node;
+        while (element !== null && element !== topElement && element.tagName !== 'BODY') {
 
-			// see also:
-			// https://developer.mozilla.org/en-US/docs/Web/API/Node/previousSibling
-			let previousElement = element.previousSibling;
-			if (previousElement === null) {
-				// reach the first child, go up parent node
-				element = element.parentNode;
-			} else {
-				element = previousElement;
-			}
+            // see also:
+            // https://developer.mozilla.org/en-US/docs/Web/API/Node/previousSibling
+            let previousElement = element.previousSibling;
+            if (previousElement === null) {
+                // reach the first child, go up parent node
+                element = element.parentNode;
+            } else {
+                element = previousElement;
+            }
 
-			if (element.nodeType === Node.ELEMENT_NODE) {
-				if (className !== undefined && tagName !== undefined) {
-					if (DomUtils.containsClassName(element.classList, className) &&
-						element.tagName === tagName) {
-						return element;
-					}
+            if (element.nodeType === Node.ELEMENT_NODE) {
+                if (className !== undefined && tagName !== undefined) {
+                    if (DomUtils.containsClassName(element.classList, className) &&
+                        element.tagName === tagName) {
+                        return element;
+                    }
 
-				}else if (className !== undefined) {
-					if (DomUtils.containsClassName(element.classList, className)){
-						return element;
-					}
+                } else if (className !== undefined) {
+                    if (DomUtils.containsClassName(element.classList, className)) {
+                        return element;
+                    }
 
-				}else if (tagName !== undefined) {
-					if (element.tagName === tagName) {
-						return element;
-					}
-				}
-			}
-		}
+                } else if (tagName !== undefined) {
+                    if (element.tagName === tagName) {
+                        return element;
+                    }
+                }
+            }
+        }
 
-		// 找不到符合的元素，返回 undefined
+        // 找不到符合的元素，返回 undefined
     }
 
     /**
-	 * 根据指定的一组样式名，从当前元素的同层的排在之前的
+     * 根据指定的一组样式名，从当前元素的同层的排在之前的
      * 姐妹节点（previous sibling nodes）开始寻找符合的元素，若找不到则
      * 转到父节点，以及父节点的排在之前的姐妹节点，直到到达指定的 topElement 元素
      * 或者 BODY 元素为止。
-	 *
+     *
      * - topElement 是可选的，默认情况下搜索到 BODY 元素即停止
      * - 结果不会是起始节点，即使它的条件匹配。
      *
-	 * @param {*} node
-	 * @param {*} classNames 样式名称数组
-	 * @param {*} topElement
+     * @param {*} node
+     * @param {*} classNames 样式名称数组
+     * @param {*} topElement
      * @returns 如果找不到符合的元素则返回 undefined
-	 */
+     */
     static findPreviousElementAndParentByClassNames(node, classNames, topElement) {
 
-		let element = node;
-		while (element !== null && element !== topElement && element.tagName !== 'BODY') {
+        let element = node;
+        while (element !== null && element !== topElement && element.tagName !== 'BODY') {
 
-			// see also:
-			// https://developer.mozilla.org/en-US/docs/Web/API/Node/previousSibling
-			let previousElement = element.previousSibling;
-			if (previousElement === null) {
-				// reach the first child, go up parent node
-				element = element.parentNode;
-			} else {
-				element = previousElement;
-			}
+            // see also:
+            // https://developer.mozilla.org/en-US/docs/Web/API/Node/previousSibling
+            let previousElement = element.previousSibling;
+            if (previousElement === null) {
+                // reach the first child, go up parent node
+                element = element.parentNode;
+            } else {
+                element = previousElement;
+            }
 
-			if (element.nodeType === Node.ELEMENT_NODE) {
-                if (DomUtils.containsAllClassNames(element.classList, classNames)){
+            if (element.nodeType === Node.ELEMENT_NODE) {
+                if (DomUtils.containsAllClassNames(element.classList, classNames)) {
                     return element;
                 }
-			}
-		}
+            }
+        }
 
-		// 找不到符合的元素，返回 undefined
+        // 找不到符合的元素，返回 undefined
     }
 
     /**
@@ -241,7 +242,7 @@ class DomUtils {
     static setBooleanByClass(element, name, booleanValue) {
         if (booleanValue === true) {
             element.classList.add(name);
-        }else {
+        } else {
             element.classList.remove(name);
         }
     }
@@ -263,10 +264,10 @@ class DomUtils {
                 `The value "${optionValue}" is not one value of [${options.join(',')}].`);
         }
 
-        for(let option of options) {
+        for (let option of options) {
             if (optionValue === option) {
                 element.classList.add(option);
-            }else {
+            } else {
                 element.classList.remove(option);
             }
         }
@@ -280,8 +281,8 @@ class DomUtils {
      * @returns 如果没有找到值列表之中的任何一个值，则返回 undefined
      */
     static getOptionByClass(element, options) {
-        for(let option of options) {
-            if (element.classList.contains(option)){
+        for (let option of options) {
+            if (element.classList.contains(option)) {
                 return option;
             }
         }
@@ -411,7 +412,7 @@ class DomUtils {
     static setPixelValueInStyle(element, name, pixelValue) {
         if (pixelValue === undefined || pixelValue === '') {
             element.style[name] = '';
-        }else {
+        } else {
             element.style[name] = pixelValue + 'px';
         }
     }
@@ -456,10 +457,10 @@ class DomUtils {
      * @param {*} element
      * @returns
      */
-	static getOuterHeight(element) {
+    static getOuterHeight(element) {
         let computeSize = DomUtils.getComputeSize(element);
-		return element.offsetHeight + computeSize.marginTop + computeSize.marginBottom;
-	}
+        return element.offsetHeight + computeSize.marginTop + computeSize.marginBottom;
+    }
 
     /**
      * 获取元素的 outer height
@@ -467,8 +468,8 @@ class DomUtils {
      * @returns
      */
     static getOuterHeightByComputeSize(computeSize) {
-		return computeSize.element.offsetHeight + computeSize.marginTop + computeSize.marginBottom;
-	}
+        return computeSize.element.offsetHeight + computeSize.marginTop + computeSize.marginBottom;
+    }
 
     /**
      * 获取元素的 outer width
@@ -477,10 +478,10 @@ class DomUtils {
      * @param {*} element
      * @returns
      */
-	static getOuterWidth(element) {
+    static getOuterWidth(element) {
         let computeSize = DomUtils.getComputeSize(element);
-		return element.offsetWidth + computeSize.marginLeft + computeSize.marginRight;
-	}
+        return element.offsetWidth + computeSize.marginLeft + computeSize.marginRight;
+    }
 
     /**
      * 获取元素的 outer width
@@ -488,8 +489,8 @@ class DomUtils {
      * @returns
      */
     static getOuterWidthByComputeSize(computeSize) {
-		return computeSize.element.offsetWidth + computeSize.marginLeft + computeSize.marginRight;
-	}
+        return computeSize.element.offsetWidth + computeSize.marginLeft + computeSize.marginRight;
+    }
 }
 
 module.exports = DomUtils;
